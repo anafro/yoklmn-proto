@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="./script.js"></script>
+    <script src="./ru.js"></script>
+
+    <title>ЁКЛМН</title>
+</head>
+
+<body class="font-sans" x-data="{
+        game: null,
+        init () {
+            this.game = Alpine.reactive(new Game());
+            this.game.begin();
+        },
+    }">
+    <template x-if="game.winner != null">
+        <div class="flex flex-col items-center justify-between w-full h-screen py-4">
+            <p x-text="`${game.winner.heart} wins`"></p>
+        </div>
+    </template>
+    <template x-if="game.winner == null">
+        <div id="app" class="flex flex-col items-center justify-between w-full h-screen py-4"
+            :class="game.writer.tailwindcss">
+            <div class="flex flex-col items-center gap-y-1 w-screen">
+                <div class="h-2 bg-blue-50 w-[--w]" :style="`--w: ${game.percent}vw`"></div>
+                <p x-text="`${game.writer.heart}`.repeat(game.writer.lives)"></p>
+            </div>
+
+            <p class="font-xl uppercase text-blue-50 font-black" x-text="game.entry"></p>
+            <input class="outline-none text-center bg-blue-50 bg-opacity-10 text-blue-50" type="text"
+                x-model="game.input" @keyup.enter="game.enter()"></input>
+        </div>
+    </template>
+</body>
+
+</html>
